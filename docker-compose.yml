@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  db:
+    image: "mysql"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_DATABASE: ultra
+    ports:
+      - 3306:3306
+    volumes:
+      - ultra-db-data:/games-api
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - host
+  api:
+    build: .
+    ports:
+      - 8080:8080
+    networks:
+      - host
+
+volumes:
+  ultra-db-data:
+networks:
+  host:
